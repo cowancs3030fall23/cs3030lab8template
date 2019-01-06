@@ -15,8 +15,8 @@ Feature: Script outputs the correct data
 		Then 30 points are awarded
 
 	Scenario: Script supports external hosts
-		When I run `socket.pl smtp.gmail.com 25`
-		Then the stdout should contain "ESMTP"
+		When I run `socket.pl test.dict.org 2628`
+		Then the stdout should contain "dictd"
 		And the stderr should not contain anything
 		And the exit status should be 0
 		Then 30 points are awarded
