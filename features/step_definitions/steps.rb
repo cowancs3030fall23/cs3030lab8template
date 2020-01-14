@@ -7,24 +7,24 @@ end
 Given /^the classes table in "(.*)" should be defined correctly$/ do |db|
 	dbPath = File.join("tmp","aruba",db)
 	create = `sqlite3 #{dbPath} 'select count(*) from classes'`
-	if create.match(/no such table/)
+	if create.match(/no such table/i)
 		raise "#{db} does not have table 'classes' defined"
 	end
 	create = `sqlite3 #{dbPath} '.schema classes'`
 	checkFor = "id text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table classes does not include column '#{checkFor}'"
 	end
 	checkFor = "subjcode text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table classes does not include column '#{checkFor}'"
 	end
 	checkFor = "coursenumber text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table classes does not include column '#{checkFor}'"
 	end
 	checkFor = "termcode text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table classes does not include column '#{checkFor}'"
 	end
 end
@@ -38,35 +38,35 @@ Given /^the students table in "(.*)" should be defined correctly$/ do |db|
 	end
 	create = `sqlite3 #{dbPath} '.schema students'`
 	checkFor = "id text primary key unique"
-	if !create.match(/#{checkFor}/)
-		raise "#{db} table students does not include column '#{checkFor}'"
+	if !create.match(/#{checkFor}/i)
+		raise "#{db} table students <#{create}> does not include column '#{checkFor}'"
 	end
 	checkFor = "firstname text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table students does not include column '#{checkFor}'"
 	end
 	checkFor = "lastname text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table students does not include column '#{checkFor}'"
 	end
 	checkFor = "major text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table students does not include column '#{checkFor}'"
 	end
 	checkFor = "email text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table students does not include column '#{checkFor}'"
 	end
 	checkFor = "city text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table students does not include column '#{checkFor}'"
 	end
 	checkFor = "state text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table students does not include column '#{checkFor}'"
 	end
 	checkFor = "zip text"
-	if !create.match(/#{checkFor}/)
+	if !create.match(/#{checkFor}/i)
 		raise "#{db} table students does not include column '#{checkFor}'"
 	end
 end
@@ -102,9 +102,10 @@ Given /^the students table data from "(.*)" in "(.*)" should be correct$/ do |cs
 	# remember Ted that when using 'step' you don't prepend the path
 	step "I run `sqlite3 #{dbPath} '#{selectStmt}'`"
 	step "the output should not contain \"Error\""
-	#puts "Output:\n#{all_output}"
-	if all_output != @csv.students.join("")
-		puts "Your student data:\n#{all_output}\n\nExpected student data:\n#{@csv.students.join("")}"
+	temp_output = all_commands.map { |c| c.output }.join("\n")
+	#puts "Output:\n#{temp_output}"
+	if not temp_output.include? @csv.students.join("")
+		puts "Your student data:\n#{temp_output}\n\nExpected student data:\n#{@csv.students.sort.join("")}"
 		raise "Student data in #{db} not as expected"
 	end
 	
@@ -118,9 +119,10 @@ Given /^the classes table data from "(.*)" in "(.*)" should be correct$/ do |csv
 	# remember Ted that when using 'step' you don't prepend the path
 	step "I run `sqlite3 #{dbPath} '#{selectStmt}'`"
 	step "the output should not contain \"Error\""
-	#puts "Output:\n#{all_output}"
-	if all_output != @csv.classes.sort.join("")
-		puts "Your classes data:\n#{all_output}\n\nExpected student data:\n#{@csv.classes.join("")}"
+	temp_output = all_commands.map { |c| c.output }.join("\n")
+	#puts "Output:\n#{temp_output}"
+	if not temp_output.include? @csv.classes.sort.join("")
+		puts "Your classes data:\n#{temp_output}\n\nExpected student data:\n#{@csv.classes.sort.join("")}"
 		raise "Classes data in #{db} not as expected"
 	end
 	

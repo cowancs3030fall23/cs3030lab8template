@@ -5,6 +5,8 @@
 
 echo $(pwd)
 echo "Getfile called!"
-rm -f ../bin/*
-mkdir -p ../bin
-cp --preserve=mode ../../socket.pl ../../bin/
+#rm -rf ../bin
+#mkdir -p ../bin
+mkdir -p dlls
+cp --preserve=mode ../../dbload.ps1 ../../bin/
+cp --preserve=mode ../../dlls/*.dll dlls/
