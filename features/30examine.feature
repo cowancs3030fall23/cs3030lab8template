@@ -12,7 +12,7 @@ Background: Script must be named "dbload" (copies dlls as well)
 		Then the classes table in "people10.db" should be defined correctly
 		Then 30 points are awarded
 
-	Scenario: Students table exists and is defined correctly
+	Scenario: People table exists and is defined correctly
 		Given a random small CSV file "random11.csv"
 		When I run `dbload.ps1 "random11.csv" "people11.db"`
         And OUTPUT is printed
@@ -33,7 +33,7 @@ Background: Script must be named "dbload" (copies dlls as well)
 		Then the count of classes from "people2.csv" in "people2.db" should be correct
 		Then 40 points are awarded
 
-	Scenario: Student table contains correct information
+	Scenario: People table contains correct information
 		Given a random small CSV file "random3.csv"
 		When I run `dbload.ps1 "random3.csv" "people3.db"`
         And OUTPUT is printed
